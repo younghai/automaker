@@ -105,10 +105,35 @@
     "category": "Core",
     "description": "pressing p again should toggle on and off the select project dropdown",
     "steps": [],
-    "status": "waiting_approval",
+    "status": "verified",
     "startedAt": "2025-12-10T00:27:04.198Z",
     "imagePaths": [],
     "skipTests": true,
     "summary": "Fixed P key toggle for project dropdown. The issue was that use-keyboard-shortcuts.ts disables ALL shortcuts when dropdown is open (isInputFocused check). Added P key handler to the existing useEffect in sidebar.tsx that handles keyboard events when dropdown is open. Modified: sidebar.tsx lines 192-196."
+  },
+  {
+    "id": "feature-1765326577290-x65tvg9n0",
+    "category": "Kanban",
+    "description": "switch the order inside the add new feature panel so descriptino comes first followed by an optional category, also update the edit feature panel.",
+    "steps": [],
+    "status": "backlog",
+    "imagePaths": [],
+    "skipTests": true
+  },
+  {
+    "id": "feature-1765326669854-gcjsh15zz",
+    "category": "Kanban",
+    "description": "remember the users choice for skip testing and add a setting toggle in settings page to let them change their default when making new tasks.  if it's enabled, show the steps to allow user to add manual testing steps.  change label from steps to Verification Steps",
+    "steps": [],
+    "status": "backlog",
+    "imagePaths": [
+      {
+        "id": "img-1765326584523-9c306ns9a",
+        "path": "/var/folders/yk/56l0_s6978qfh521xf1dtx3r0000gn/T/automaker-images/1765326584514_Screenshot_2025-12-09_at_7.29.42_PM.png",
+        "filename": "Screenshot 2025-12-09 at 7.29.42 PM.png",
+        "mimeType": "image/png"
+      }
+    ],
+    "skipTests": true
   }
 ]
