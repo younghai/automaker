@@ -190,29 +190,43 @@ export function createLogger(context: string): Logger {
     };
   }
 
+  // Safe console output wrapper - handles EPIPE errors when streams are closed (Electron shutdown)
+  function safeConsoleLog(method: 'log' | 'error' | 'warn', ...args: unknown[]): void {
+    try {
+      console[method](...args);
+    } catch (error) {
+      // Silently ignore EPIPE errors - streams are closed during shutdown
+      const err = error as { code?: string };
+      if (err?.code !== 'EPIPE') {
+        // Re-throw non-EPIPE errors as they might be real issues
+        throw error;
+      }
+    }
+  }
+
   // Node.js implementation with ANSI colors
   return {
     error: (...args: unknown[]): void => {
       if (currentLogLevel >= LogLevel.ERROR) {
-        console.error(formatNodeLog('ERROR', context, ANSI.red), ...args);
+        safeConsoleLog('error', formatNodeLog('ERROR', context, ANSI.red), ...args);
       }
     },
 
     warn: (...args: unknown[]): void => {
       if (currentLogLevel >= LogLevel.WARN) {
-        console.log(formatNodeLog('WARN', context, ANSI.yellow), ...args);
+        safeConsoleLog('log', formatNodeLog('WARN', context, ANSI.yellow), ...args);
       }
     },
 
     info: (...args: unknown[]): void => {
       if (currentLogLevel >= LogLevel.INFO) {
-        console.log(formatNodeLog('INFO', context, ANSI.cyan), ...args);
+        safeConsoleLog('log', formatNodeLog('INFO', context, ANSI.cyan), ...args);
       }
     },
 
     debug: (...args: unknown[]): void => {
       if (currentLogLevel >= LogLevel.DEBUG) {
-        console.log(formatNodeLog('DEBUG', context, ANSI.magenta), ...args);
+        safeConsoleLog('log', formatNodeLog('DEBUG', context, ANSI.magenta), ...args);
       }
     },
   };
